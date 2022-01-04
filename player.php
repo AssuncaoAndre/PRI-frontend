@@ -11,13 +11,8 @@
 
 <?php
 
-$playerArray = getPlayerByID(1);
+$playerArray = getPlayerByID($player_id);
 
     echo $playerArray["irl_name"] ."<br>" . $playerArray["online_name"]."<br>". $playerArray["bio"]. "<br>";
 ?>
 
-<?php
-
-    include("common/footer.php");
-
-?>
