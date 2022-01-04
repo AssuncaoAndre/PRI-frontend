@@ -1,0 +1,38 @@
+.search-result {
+    width: 100%;
+  
+    display: flex;
+  
+    padding: 0.75rem 0rem;
+  
+    cursor: pointer;
+
+    transition: 0.3s;
+  
+    
+  }
+
+.search-description {
+    margin: 0 0.5rem;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.search-description main {
+    height: min-content;
+}
+
+.search-description span {
+    height: min-content;
+    font-size: 0.7rem;
+}
+
+.search-description h4 {
+    font-size: 0.9rem;
+    height: min-content;
+}
+
+.search-result:hover {
+    opacity: 50%;
+  }
