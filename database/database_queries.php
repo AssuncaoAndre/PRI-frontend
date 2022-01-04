@@ -20,11 +20,11 @@
 
     }
 
-    function getOpeningGames($name){
+    function getOpeningGamesByElo($name,$lower, $upper){
 
         global $db;
         
-        $query = "SELECT count(*) AS 'ntimes' FROM games WHERE opening LIKE '%$name%'";
+        $query = "SELECT count(*) AS 'ntimes' FROM games WHERE opening LIKE '%$name%' AND (white_elo+black_elo) / 2 >= $lower AND (white_elo+black_elo) / 2 < $upper";
 
         $stmt = $db->prepare($query);
         $stmt->execute();
@@ -33,11 +33,11 @@
 
     }
 
-    function getWhiteWins($name){
+    function getWhiteWinsByElo($name,$lower,$upper){
 
         global $db;
         
-        $query = "SELECT count(*) AS 'ntimes' FROM games WHERE opening LIKE '%$name%' AND result=0";
+        $query = "SELECT count(*) AS 'ntimes' FROM games WHERE opening LIKE '%$name%' AND result=0 AND (white_elo+black_elo) / 2 >= $lower AND (white_elo+black_elo) / 2 < $upper";
 
         $stmt = $db->prepare($query);
         $stmt->execute();
@@ -46,11 +46,11 @@
 
     }
 
-    function getDraws($name){
+    function getDrawsByElo($name,$lower,$upper){
 
         global $db;
         
-        $query = "SELECT count(*) AS 'ntimes' FROM games WHERE opening LIKE '%$name%' AND result=1";
+        $query = "SELECT count(*) AS 'ntimes' FROM games WHERE opening LIKE '%$name%' AND result=1 AND (white_elo+black_elo) / 2 >= $lower AND (white_elo+black_elo) / 2 < $upper";
 
         $stmt = $db->prepare($query);
         $stmt->execute();
@@ -60,11 +60,11 @@
     }
 
     
-    function getBlackWins($name){
+    function getBlackWinsByElo($name,$lower,$upper){
 
         global $db;
         
-        $query = "SELECT count(*) AS 'ntimes' FROM games WHERE opening LIKE '%$name%' AND result=2";
+        $query = "SELECT count(*) AS 'ntimes' FROM games WHERE opening LIKE '%$name%' AND result=2 AND (white_elo+black_elo) / 2 >= $lower AND (white_elo+black_elo) / 2 < $upper";
 
         $stmt = $db->prepare($query);
         $stmt->execute();
