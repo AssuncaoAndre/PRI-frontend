@@ -3,4 +3,7 @@
     include("navbar.php");
 ?>
 
-<h1>PLAYERS</h1>
+<div id="search_results" class="container" style="margin-top: 2em;">
+        <h1>Players Page</h1>
+        
+</div>

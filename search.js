@@ -6,10 +6,7 @@ search_bar.addEventListener("keyup", (e)=>
     console.log(searchString)
     if(searchString!="")
         {
-            var query='{ query:"op_name:';
-            query =query+searchString+'"}' ;
-            console.log(query)
-            var url = "http://localhost:8000/query.php?query="+query;
+            var url = "./query.php?query="+searchString;
             var xhr = new XMLHttpRequest();
             xhr.open("GET", url, true);
 
@@ -19,38 +16,46 @@ search_bar.addEventListener("keyup", (e)=>
             xhr.send();
             xhr.onload= function()
             {  
-                openings=JSON.parse(JSON.parse(xhr.responseText).data).response.docs
-                openings.forEach(function(item, index, array) {
-                    console.log(item.op_name)
-                    searchRes.appendChild(buildSearchDiv(item))
-                  })
-                  if(openings.lenght==0){
-                    searchString.innerHTML = `Your search ${search_parameter} did not find any animal`
-                  }
-            }
+                
+                openings = JSON.parse(xhr.responseText).response.docs;
+                
+                let ids=[];
+                let names=[];
+
+                
+
+                openings.forEach(function(item) {
+                  ids.push(item.opening_id)
+                  names.push(item.op_name); 
+                })
+
+                addSearchResults(ids,names);
+
+                if(openings.length==0){
+                   searchString.innerHTML = `Your search ${searchString} didn't extract any results`
+                }
             
-        }
+              }
+          
+          }
 })
 
-function buildSearchDiv(opening) {
-    console.log("here")
-    const div = document.createElement('div')
-    div.className = 'search-result'
+function addSearchResults(ids,names) {
   
-    div.innerHTML = `
-          <div class="search-description">
-            <header>
-              <h4>${opening.op_name}</h4>
-            </header>
-            <main>
-              <span>${
-                opening.op_description
-              } </span>
-            </main>
-          </div>
-    `
+  let search_results = document.getElementById("search_results");
   
-    div.onclick = () => (window.location.href = `./opening.php?id=${opening.id}`)
-    console.log(div)
-    return div
+  search_results.innerHTML = "<h1> Search Results </h1>";
+
+  search_results.innerHTML += "<ul>";
+
+  ids.forEach((id, index) => {
+    let item = '<li> <a href="./opening.php?opening_id=' + id + '">' + names[index] + '</a></li>';
+
+    search_results.innerHTML += item;
+
+  });
+
+  search_results.innerHTML += "</ul>";
+
+ 
   }
