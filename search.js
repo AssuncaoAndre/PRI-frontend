@@ -17,14 +17,20 @@ search_bar.addEventListener("keyup", (e)=>
             xhr.onload= function()
             {  
                 
-                openings = JSON.parse(xhr.responseText).response.docs;
+              if(xhr.responseText == "Error 503 Service Unavailable"){
+                  displaySOLRerror();
+              }else{
+
+              
+
+                results = JSON.parse(xhr.responseText).response.docs;
                 
                 let ids=[];
                 let names=[];
 
                 
 
-                openings.forEach(function(item) {
+                results.forEach(function(item) {
                   ids.push(item.opening_id)
                   names.push(item.op_name); 
                 })
@@ -36,19 +42,21 @@ search_bar.addEventListener("keyup", (e)=>
                 }
             
               }
+            }
           
           }
 })
 
 function addSearchResults(ids,names) {
   
-  let search_results = document.getElementById("search_results");
+  let search_results = document.getElementById("page_content");
   
   search_results.innerHTML = "<h1> Search Results </h1>";
 
   search_results.innerHTML += "<ul>";
 
   ids.forEach((id, index) => {
+    
     let item = '<li> <a href="./opening.php?opening_id=' + id + '">' + names[index] + '</a></li>';
 
     search_results.innerHTML += item;
@@ -58,4 +66,23 @@ function addSearchResults(ids,names) {
   search_results.innerHTML += "</ul>";
 
  
-  }
+}
+
+function displaySOLRerror(){
+
+  let search_results = document.getElementById("page_content");
+  search_results.innerHTML = "<h2>SOLR Service not available </h2>"
+
+}
+
+function itemPlayer(){
+
+
+
+}
+
+function itemChessOpening(){
+
+
+
+}

@@ -28,15 +28,22 @@ if(!empty($_GET['query']))
 }
 else
 {
-	response(400,"Invalid Request",NULL);
+	response(400,"Empty Query","Empty Query");
 }
 
 function response($status,$data)
 {
 	header("HTTP/1.1 ".$status);
 	
+	if($data == NULL){
+		echo "Error 503 Service Unavailable";
+		return;
+	}
+
 	$response['status']=$status;
 	$response['data']=$data;
+
+	
 	
 	echo $response['data'];
 }
