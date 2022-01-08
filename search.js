@@ -3,13 +3,12 @@ const searchRes = document.querySelector('#search-results div')
 search_bar.addEventListener("keyup", (e)=>
 {
     const searchString = e.target.value
+
+
     console.log(searchString)
     if(searchString!="")
         {
-            var query='{ query:"op_name:';
-            query =query+searchString+'"}' ;
-            console.log(query)
-            var url = "http://localhost:8000/query.php?query="+query;
+            var url = "./query.php?query="+searchString;
             var xhr = new XMLHttpRequest();
             xhr.open("GET", url, true);
 
@@ -19,38 +18,95 @@ search_bar.addEventListener("keyup", (e)=>
             xhr.send();
             xhr.onload= function()
             {  
-                openings=JSON.parse(JSON.parse(xhr.responseText).data).response.docs
-                openings.forEach(function(item, index, array) {
-                    console.log(item.op_name)
-                    searchRes.appendChild(buildSearchDiv(item))
-                  })
-                  if(openings.lenght==0){
-                    searchString.innerHTML = `Your search ${search_parameter} did not find any animal`
-                  }
+              if(xhr.responseText == "Error 503 Service Unavailable"){
+                  displaySOLRerror();
+              }else{
+
+              
+
+                results = JSON.parse(xhr.responseText).response.docs;
+                
+                addSearchResults(results,searchString);
+              }
             }
-            
-        }
+          
+          }
 })
 
-function buildSearchDiv(opening) {
-    console.log("here")
-    const div = document.createElement('div')
-    div.className = 'search-result'
+function addSearchResults(results,searchString) {
   
-    div.innerHTML = `
-          <div class="search-description">
-            <header>
-              <h4>${opening.op_name}</h4>
-            </header>
-            <main>
-              <span>${
-                opening.op_description
-              } </span>
-            </main>
-          </div>
-    `
+
+  let search_results = document.getElementById("page_content");
+  search_results.innerHTML = "<h1> Search Results </h1>";
+  search_results.innerHTML += '<ul class="list-group">';
   
-    div.onclick = () => (window.location.href = `./opening.php?id=${opening.id}`)
-    console.log(div)
-    return div
-  }
+  results.forEach(function(item) {
+                  
+    if("opening_id" in item){
+    
+      search_results.innerHTML += itemChessOpening(item['opening_id'],item['op_name'],item['pgn_moves']);
+
+    }else if("player_id" in item){
+
+      search_results.innerHTML += itemPlayer(item['player_id'],item['irl_name'],item['online_name']);
+
+    }
+    
+    
+  })
+ 
+
+  search_results.innerHTML += "</ul>";
+
+  if(results.length==0){
+    search_results.innerHTML = `Your search ${searchString} didn't extract any results`
+ }
+
+ 
+}
+
+function displaySOLRerror(){
+
+  let search_results = document.getElementById("page_content");
+  search_results.innerHTML = "<h2>SOLR Service not available </h2>"
+
+}
+
+function itemPlayer(player_id,player_name,online_name){
+
+  let item = '<li class="list-group-item">';
+  item += '<div class="container">';
+
+  item += '<h4>GM ' + player_name + '<img src="person-placeholder.jpg" alt="placeholder" width=20 height=20> </h4>'
+  
+  item += '<a href="./player.php?player_id=' + player_id + '">Go to his page</a>';
+            
+  
+  item += '<a href="https://lichess.org/@/' + online_name + '"> Lichess Profile</a>';
+            
+            
+
+  item += '</div>';
+  item += '</li>';
+
+  return item;
+
+}
+
+function itemChessOpening(id,name,moves){
+
+  let item = '<li class="list-group-item">'
+
+  item += '<div class="container">';
+  item += '<h4>'+ name + '<img src="chess-placeholder.jpg" alt="placeholder" width=20 height=20> </h4>';
+  item += '<p>' + moves + '</p>';
+  item += '<a href="./opening.php?opening_id='+ id + '">See more about this opening</a>';
+
+  item += '</div>';
+  
+  item += '</li>';
+
+  return item
+
+
+}

@@ -73,7 +73,27 @@
 
     }
 
+    function getRandomPlayers(){
 
+        global $db;
+
+        $stmt = $db->prepare("SELECT * from players ORDER BY RANDOM() LIMIT 15");
+        $stmt->execute();
+
+        return $stmt->fetchAll();
+
+    }
+
+    function getRandomOpenings(){
+
+        global $db;
+
+        $stmt = $db->prepare("SELECT * from openings WHERE is_mainline = 1 ORDER BY RANDOM() LIMIT 15");
+        $stmt->execute();
+
+        return $stmt->fetchAll();
+
+    }
     
 
 
