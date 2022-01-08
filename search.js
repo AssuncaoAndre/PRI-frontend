@@ -3,6 +3,8 @@ const searchRes = document.querySelector('#search-results div')
 search_bar.addEventListener("keyup", (e)=>
 {
     const searchString = e.target.value
+
+
     console.log(searchString)
     if(searchString!="")
         {
@@ -16,7 +18,6 @@ search_bar.addEventListener("keyup", (e)=>
             xhr.send();
             xhr.onload= function()
             {  
-                
               if(xhr.responseText == "Error 503 Service Unavailable"){
                   displaySOLRerror();
               }else{
@@ -25,45 +26,41 @@ search_bar.addEventListener("keyup", (e)=>
 
                 results = JSON.parse(xhr.responseText).response.docs;
                 
-                let ids=[];
-                let names=[];
-
-                
-
-                results.forEach(function(item) {
-                  ids.push(item.opening_id)
-                  names.push(item.op_name); 
-                })
-
-                addSearchResults(ids,names);
-
-                if(openings.length==0){
-                   searchString.innerHTML = `Your search ${searchString} didn't extract any results`
-                }
-            
+                addSearchResults(results,searchString);
               }
             }
           
           }
 })
 
-function addSearchResults(ids,names) {
+function addSearchResults(results,searchString) {
   
+
   let search_results = document.getElementById("page_content");
-  
   search_results.innerHTML = "<h1> Search Results </h1>";
+  search_results.innerHTML += '<ul class="list-group">';
+  
+  results.forEach(function(item) {
+                  
+    if("opening_id" in item){
 
-  search_results.innerHTML += "<ul>";
+      search_results.innerHTML += itemChessOpening(item['opening_id'],item['op_name'],item['pgn_moves']);
 
-  ids.forEach((id, index) => {
+    }else if("player_id" in item){
+
+      search_results.innerHTML += itemPlayer(item['player_id'],item['irl_name'],item['online_name']);
+
+    }
     
-    let item = '<li> <a href="./opening.php?opening_id=' + id + '">' + names[index] + '</a></li>';
-
-    search_results.innerHTML += item;
-
-  });
+    
+  })
+ 
 
   search_results.innerHTML += "</ul>";
+
+  if(results.length==0){
+    search_results.innerHTML = `Your search ${searchString} didn't extract any results`
+ }
 
  
 }
@@ -77,12 +74,22 @@ function displaySOLRerror(){
 
 function itemPlayer(){
 
+  //TBD
 
 
 }
 
-function itemChessOpening(){
+function itemChessOpening(id,name,moves){
 
+  let item = '<li class="list-group-item">'
+
+  item += '<div class="container">';
+  item += '<h4>'+ name + '<img src="chess-placeholder.jpg" alt="placeholder" width=20 height=20> </h4>';
+  item += '<p>' + moves + '</p>';
+  item += '<a href="./opening.php?opening_id='+ id + '">See more about this opening</a>';
+
+
+  return item
 
 
 }
