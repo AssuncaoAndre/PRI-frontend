@@ -43,7 +43,7 @@ function addSearchResults(results,searchString) {
   results.forEach(function(item) {
                   
     if("opening_id" in item){
-
+    
       search_results.innerHTML += itemChessOpening(item['opening_id'],item['op_name'],item['pgn_moves']);
 
     }else if("player_id" in item){
@@ -72,10 +72,24 @@ function displaySOLRerror(){
 
 }
 
-function itemPlayer(){
+function itemPlayer(player_id,player_name,online_name){
 
-  //TBD
+  let item = '<li class="list-group-item">';
+  item += '<div class="container">';
 
+  item += '<h4>GM ' + player_name + '<img src="person-placeholder.jpg" alt="placeholder" width=20 height=20> </h4>'
+  
+  item += '<a href="./player.php?player_id=' + player_id + '">Go to his page</a>';
+            
+  
+  item += '<a href="https://lichess.org/@/' + online_name + '"> Lichess Profile</a>';
+            
+            
+
+  item += '</div>';
+  item += '</li>';
+
+  return item;
 
 }
 
@@ -88,6 +102,9 @@ function itemChessOpening(id,name,moves){
   item += '<p>' + moves + '</p>';
   item += '<a href="./opening.php?opening_id='+ id + '">See more about this opening</a>';
 
+  item += '</div>';
+  
+  item += '</li>';
 
   return item
 
