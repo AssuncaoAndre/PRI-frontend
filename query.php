@@ -14,10 +14,10 @@ if(!empty($_GET['query']))
     
     }
 
-	
 
 
-	$query = "select?defType=edismax&indent=true&q.op=OR&q=".$user_input ."&qf=irl_name%5E1%20op_description%5E1%20op_name%5E1%20pgn_moves%5E1&rows=20&wt=json'";
+
+	$query = "select?defType=edismax&indent=true&q.op=OR&q=".$user_input ."&qf=irl_name%5E1%20op_description%5E1%20op_name%5E4%20pgn_moves%5E8%20bio%5E1&rows=11&wt=json'";
     $command = "curl 'http://localhost:8983/solr/chess_system/".$query;
 	
 	

@@ -1,5 +1,4 @@
 search_bar=document.querySelector("#search")
-const searchRes = document.querySelector('#search-results div')
 search_bar.addEventListener("keyup", (e)=>
 {
     const searchString = e.target.value
@@ -30,37 +29,40 @@ search_bar.addEventListener("keyup", (e)=>
           }
           else 
           {
-            let search_results = document.getElementById("page_content");
+            let search_results = document.getElementById("search_results");
             search_results.innerHTML=""
           }
 })
 
 function addSearchResults(results,searchString) {
 
-  let search_results = document.getElementById("page_content");
+  let search_results = document.getElementById("search_results");
   search_results.innerHTML = "<h1> Search Results </h1>";
-  search_results.innerHTML += '<ul class="list-group">';
+  search_results.innerHTML += '<ul class="list-group" id="result_list"></ul>';
 
-  if(results.length>10)
-  results.length=10
+  if(results.length>10){
+      results.length=10;
+  }
   
+  let result_list = document.getElementById("result_list");
+
   results.forEach(function(item) {
-                  
+    
     if("opening_id" in item){
     
-      search_results.innerHTML += itemChessOpening(item['opening_id'],item['op_name'],item['pgn_moves']);
+      result_list.innerHTML += itemChessOpening(item['opening_id'],item['op_name'],item['pgn_moves']);
 
     }else if("player_id" in item){
 
-      search_results.innerHTML += itemPlayer(item['player_id'],item['irl_name'],item['online_name']);
+      result_list.innerHTML += itemPlayer(item['player_id'],item['irl_name'],item['online_name']);
 
     }
     
     
   })
  
+  
 
-  search_results.innerHTML += "</ul>";
 
   if(results.length==0){
     search_results.innerHTML = `Your search ${searchString} didn't extract any results`
@@ -71,7 +73,7 @@ function addSearchResults(results,searchString) {
 
 function displaySOLRerror(){
 
-  let search_results = document.getElementById("page_content");
+  let search_results = document.getElementById("search_results");
   search_results.innerHTML = "<h2>SOLR Service not available </h2>"
 
 }
