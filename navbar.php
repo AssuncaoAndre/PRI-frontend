@@ -25,7 +25,9 @@
             <input name="search" id="search" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
            
         </form>
-        <div id="search-results"></div>
+        
     </div>
     </nav>
+
+    <div id="search_results" class="container" style="margin-top: 2em;"></div>
     <div id="page_content"></div>
