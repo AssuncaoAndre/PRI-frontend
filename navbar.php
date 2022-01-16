@@ -23,8 +23,9 @@
 
         <form class="form-inline mx-auto" action="/search.php" method="get">
             <input name="search" id="search" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+           
         </form>
         <div id="search-results"></div>
     </div>
     </nav>
+    <div id="page_content"></div>

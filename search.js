@@ -21,9 +21,6 @@ search_bar.addEventListener("keyup", (e)=>
               if(xhr.responseText == "Error 503 Service Unavailable"){
                   displaySOLRerror();
               }else{
-
-              
-
                 results = JSON.parse(xhr.responseText).response.docs;
                 
                 addSearchResults(results,searchString);
@@ -31,14 +28,21 @@ search_bar.addEventListener("keyup", (e)=>
             }
           
           }
+          else 
+          {
+            let search_results = document.getElementById("page_content");
+            search_results.innerHTML=""
+          }
 })
 
 function addSearchResults(results,searchString) {
-  
 
   let search_results = document.getElementById("page_content");
   search_results.innerHTML = "<h1> Search Results </h1>";
   search_results.innerHTML += '<ul class="list-group">';
+
+  if(results.length>10)
+  results.length=10
   
   results.forEach(function(item) {
                   

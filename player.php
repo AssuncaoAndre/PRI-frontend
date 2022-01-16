@@ -12,7 +12,10 @@
 <?php
 
 $playerArray = getPlayerByID($player_id);
-
-    echo $playerArray["irl_name"] ."<br>" . $playerArray["online_name"]."<br>". $playerArray["bio"]. "<br>";
 ?>
+<div class="container" style="margin-top: 2em;">
+    <h1><?= $playerArray["irl_name"] ?></h1> 
+    <a href="https://lichess.org/@/<?=$playerArray['online_name']?>" >Lichess Profile</a>
+    <p id="description"><?= $playerArray["bio"] ?></p>
+</div>
 

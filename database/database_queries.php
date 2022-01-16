@@ -24,10 +24,11 @@
 
         global $db;
         
-        $query = "SELECT count(*) AS 'ntimes' FROM games WHERE opening LIKE '%$name%' AND (white_elo+black_elo) / 2 >= $lower AND (white_elo+black_elo) / 2 < $upper";
+        $query = "SELECT count(*) AS 'ntimes' FROM games WHERE opening LIKE ? AND (white_elo+black_elo) / 2 >= $lower AND (white_elo+black_elo) / 2 < $upper";
 
         $stmt = $db->prepare($query);
-        $stmt->execute();
+        $name='%'.$name.'%';
+        $stmt->execute([$name]);
 
         return $stmt->fetch()['ntimes'];
 
@@ -37,10 +38,10 @@
 
         global $db;
         
-        $query = "SELECT count(*) AS 'ntimes' FROM games WHERE opening LIKE '%$name%' AND result=0 AND (white_elo+black_elo) / 2 >= $lower AND (white_elo+black_elo) / 2 < $upper";
-
+        $query = "SELECT count(*) AS 'ntimes' FROM games WHERE opening LIKE ? AND result=0 AND (white_elo+black_elo) / 2 >= $lower AND (white_elo+black_elo) / 2 < $upper";
+        $name='%'.$name.'%';
         $stmt = $db->prepare($query);
-        $stmt->execute();
+        $stmt->execute([$name]);
 
         return $stmt->fetch()['ntimes'];
 
@@ -50,10 +51,10 @@
 
         global $db;
         
-        $query = "SELECT count(*) AS 'ntimes' FROM games WHERE opening LIKE '%$name%' AND result=1 AND (white_elo+black_elo) / 2 >= $lower AND (white_elo+black_elo) / 2 < $upper";
-
+        $query = "SELECT count(*) AS 'ntimes' FROM games WHERE opening LIKE ? AND result=1 AND (white_elo+black_elo) / 2 >= $lower AND (white_elo+black_elo) / 2 < $upper";
+        $name='%'.$name.'%';
         $stmt = $db->prepare($query);
-        $stmt->execute();
+        $stmt->execute([$name]);
 
         return $stmt->fetch()['ntimes'];
 
@@ -64,10 +65,10 @@
 
         global $db;
         
-        $query = "SELECT count(*) AS 'ntimes' FROM games WHERE opening LIKE '%$name%' AND result=2 AND (white_elo+black_elo) / 2 >= $lower AND (white_elo+black_elo) / 2 < $upper";
-
+        $query = "SELECT count(*) AS 'ntimes' FROM games WHERE opening LIKE ? AND result=2 AND (white_elo+black_elo) / 2 >= $lower AND (white_elo+black_elo) / 2 < $upper";
+        $name='%'.$name.'%';
         $stmt = $db->prepare($query);
-        $stmt->execute();
+        $stmt->execute([$name]);
 
         return $stmt->fetch()['ntimes'];
 
